@@ -105,14 +105,7 @@ export function useImageConverter() {
       return;
     }
 
-    console.log('Starting conversion with files:', selectedFiles);
-    console.log('Files structure:', selectedFiles.map(f => ({ 
-      name: f.name, 
-      type: f.type, 
-      size: f.size,
-      hasFileProperty: 'file' in f,
-      preview: f.preview 
-    })));
+
 
     setIsConverting(true);
     setConversionProgress(0);

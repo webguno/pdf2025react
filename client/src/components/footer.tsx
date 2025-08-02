@@ -1,5 +1,6 @@
 import { Heart, Github, Twitter, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -76,14 +77,22 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors duration-200">
+                <Link 
+                  href="/privacy-policy" 
+                  className="hover:text-primary transition-colors duration-200"
+                  data-testid="link-privacy-policy"
+                >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors duration-200">
-                  Terms of Service
-                </a>
+                <Link 
+                  href="/terms-conditions" 
+                  className="hover:text-primary transition-colors duration-200"
+                  data-testid="link-terms-conditions"
+                >
+                  Terms & Conditions
+                </Link>
               </li>
             </ul>
           </div>
@@ -93,7 +102,7 @@ export default function Footer() {
         <div className="border-t pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              © {currentYear} PDF Converter. App By WEBGUNO
+              © {currentYear} PDF Converter. All rights reserved.
             </div>
             
             {/* Social Links */}

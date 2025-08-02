@@ -41,8 +41,7 @@ export async function convertImagesToPDF(
   options: ConversionOptions,
   onProgress: (progress: number, currentFile: string) => void
 ): Promise<Uint8Array> {
-  console.log('Starting PDF conversion with files:', imageFiles.length);
-  console.log('Conversion options:', options);
+
   
   const pdfDoc = await PDFDocument.create();
   
@@ -53,7 +52,7 @@ export async function convertImagesToPDF(
   pdfDoc.setCreator('Image to PDF Converter');
   pdfDoc.setCreationDate(new Date());
   
-  console.log('PDF document created, processing images...');
+
 
   for (let i = 0; i < imageFiles.length; i++) {
     const imageFile = imageFiles[i];
@@ -61,12 +60,8 @@ export async function convertImagesToPDF(
     onProgress(Math.round(((i + 1) / imageFiles.length) * 100), imageFile.name);
 
     try {
-      console.log(`Processing image: ${imageFile.name}, type: ${imageFile.type}, size: ${imageFile.size}`);
-      console.log('File object:', file);
-      
       // Read file as array buffer
       const imageBytes = await readFileAsArrayBuffer(file);
-      console.log(`Image bytes loaded: ${imageBytes.byteLength} bytes`);
       
       // Embed image based on type
       let image;
@@ -99,7 +94,6 @@ export async function convertImagesToPDF(
       );
 
       // Draw image
-      console.log(`Drawing image at position (${x}, ${y}) with size ${imageWidth}x${imageHeight}`);
       page.drawImage(image, {
         x,
         y,
@@ -107,25 +101,20 @@ export async function convertImagesToPDF(
         height: imageHeight,
         opacity: 1,
       });
-      
-      console.log(`Successfully added image ${imageFile.name} to PDF`);
 
     } catch (error) {
-      console.error(`Error processing image ${imageFile.name}:`, error);
-      // Continue with next image
+      // Continue with next image if one fails
+      continue;
     }
   }
 
   const pageCount = pdfDoc.getPageCount();
-  console.log(`PDF generation complete. Total pages: ${pageCount}`);
   
   if (pageCount === 0) {
-    console.error('No pages were added to the PDF!');
     throw new Error('Failed to add any images to the PDF');
   }
 
   const pdfBytes = await pdfDoc.save();
-  console.log(`PDF saved, size: ${pdfBytes.length} bytes`);
   
   return pdfBytes;
 }
