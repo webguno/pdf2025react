@@ -43,9 +43,9 @@ export default function Footer() {
               No uploads, complete privacy, and advanced customization options.
             </p>
             <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-              <span>Made with</span>
+              <span>Made By</span>
               <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>for the web</span>
+              <span>WEBGUNO</span>
             </div>
           </div>
 
@@ -102,7 +102,7 @@ export default function Footer() {
         <div className="border-t pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              © {currentYear} PDF Converter. All rights reserved.
+             App By WEBGUNO
             </div>
             
             {/* Social Links */}
