@@ -93,7 +93,7 @@ export default function Footer() {
         <div className="border-t pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              © {currentYear} PDF Converter. All rights reserved.
+              © {currentYear} PDF Converter. App By WEBGUNO
             </div>
             
             {/* Social Links */}
