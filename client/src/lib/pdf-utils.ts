@@ -27,11 +27,23 @@ const PAGE_SIZES: Record<string, PageDimensions> = {
   A5: { width: 420.94, height: 595.28 }
 };
 
+interface ImageFile {
+  id: string;
+  file: File;
+  name: string;
+  size: number;
+  type: string;
+  preview: string;
+}
+
 export async function convertImagesToPDF(
-  files: File[],
+  imageFiles: ImageFile[],
   options: ConversionOptions,
   onProgress: (progress: number, currentFile: string) => void
 ): Promise<Uint8Array> {
+  console.log('Starting PDF conversion with files:', imageFiles.length);
+  console.log('Conversion options:', options);
+  
   const pdfDoc = await PDFDocument.create();
   
   // Set PDF metadata
@@ -40,14 +52,21 @@ export async function convertImagesToPDF(
   }
   pdfDoc.setCreator('Image to PDF Converter');
   pdfDoc.setCreationDate(new Date());
+  
+  console.log('PDF document created, processing images...');
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    onProgress(Math.round(((i + 1) / files.length) * 100), file.name);
+  for (let i = 0; i < imageFiles.length; i++) {
+    const imageFile = imageFiles[i];
+    const file = imageFile.file;
+    onProgress(Math.round(((i + 1) / imageFiles.length) * 100), imageFile.name);
 
     try {
+      console.log(`Processing image: ${imageFile.name}, type: ${imageFile.type}, size: ${imageFile.size}`);
+      console.log('File object:', file);
+      
       // Read file as array buffer
       const imageBytes = await readFileAsArrayBuffer(file);
+      console.log(`Image bytes loaded: ${imageBytes.byteLength} bytes`);
       
       // Embed image based on type
       let image;
@@ -80,6 +99,7 @@ export async function convertImagesToPDF(
       );
 
       // Draw image
+      console.log(`Drawing image at position (${x}, ${y}) with size ${imageWidth}x${imageHeight}`);
       page.drawImage(image, {
         x,
         y,
@@ -87,14 +107,27 @@ export async function convertImagesToPDF(
         height: imageHeight,
         opacity: 1,
       });
+      
+      console.log(`Successfully added image ${imageFile.name} to PDF`);
 
     } catch (error) {
-      console.error(`Error processing image ${file.name}:`, error);
+      console.error(`Error processing image ${imageFile.name}:`, error);
       // Continue with next image
     }
   }
 
-  return await pdfDoc.save();
+  const pageCount = pdfDoc.getPageCount();
+  console.log(`PDF generation complete. Total pages: ${pageCount}`);
+  
+  if (pageCount === 0) {
+    console.error('No pages were added to the PDF!');
+    throw new Error('Failed to add any images to the PDF');
+  }
+
+  const pdfBytes = await pdfDoc.save();
+  console.log(`PDF saved, size: ${pdfBytes.length} bytes`);
+  
+  return pdfBytes;
 }
 
 function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {

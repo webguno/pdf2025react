@@ -2,8 +2,12 @@ import { useState, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { convertImagesToPDF, downloadBlob, type ConversionOptions } from '@/lib/pdf-utils';
 
-interface ImageFile extends File {
+interface ImageFile {
   id: string;
+  file: File;
+  name: string;
+  size: number;
+  type: string;
   preview: string;
 }
 
@@ -47,8 +51,11 @@ export function useImageConverter() {
     }
 
     const newImageFiles: ImageFile[] = imageFiles.map(file => ({
-      ...file,
       id: `${file.name}-${Date.now()}-${Math.random()}`,
+      file: file,
+      name: file.name,
+      size: file.size,
+      type: file.type,
       preview: URL.createObjectURL(file)
     }));
 
@@ -97,6 +104,15 @@ export function useImageConverter() {
       });
       return;
     }
+
+    console.log('Starting conversion with files:', selectedFiles);
+    console.log('Files structure:', selectedFiles.map(f => ({ 
+      name: f.name, 
+      type: f.type, 
+      size: f.size,
+      hasFileProperty: 'file' in f,
+      preview: f.preview 
+    })));
 
     setIsConverting(true);
     setConversionProgress(0);
