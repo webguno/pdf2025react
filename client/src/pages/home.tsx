@@ -12,7 +12,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="text-center mb-12 pt-8">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 gradient-text">
-            Transform Images into
+            Images into
             <br />
             Professional PDFs
           </h1>
