@@ -14,7 +14,7 @@ export default function MobileAdBanner() {
         configScript.type = 'text/javascript'
         configScript.text = `
           atOptions = {
-            'key' : 'd4d308f2a53445a6d7e007c52c1c0561',
+            'key' : '4ff1b29ea326de1791c3e290a78f4e8c',
             'format' : 'iframe',
             'height' : 50,
             'width' : 320,
@@ -25,7 +25,7 @@ export default function MobileAdBanner() {
         // Create the ad loader script
         const adScript = document.createElement('script')
         adScript.type = 'text/javascript'
-        adScript.src = '//www.highperformanceformat.com/d4d308f2a53445a6d7e007c52c1c0561/invoke.js'
+        adScript.src = '//www.highperformanceformat.com/4ff1b29ea326de1791c3e290a78f4e8c/invoke.js'
         adScript.async = true
         
         // Append both scripts to the container
@@ -55,7 +55,7 @@ export default function MobileAdBanner() {
         >
           {/* Loading fallback */}
           <div className="w-full h-full bg-gray-100 dark:bg-gray-800 rounded flex items-center justify-center text-xs text-gray-500 border">
-            <span>Loading ad...</span>
+            <span>Please Off Ad-blocker</span>
           </div>
         </div>
       </div>
